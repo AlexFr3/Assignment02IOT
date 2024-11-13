@@ -1,18 +1,13 @@
 #include <Arduino.h>
+#include <Wire.h>
+#include "Scheduler.h"
 
-// put function declarations here:
-int myFunction(int, int);
-
+Scheduler sched;
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  sched.init(150);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  sched.schedule();
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}

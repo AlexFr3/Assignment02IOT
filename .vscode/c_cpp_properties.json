@@ -10,13 +10,15 @@
             "includePath": [
                 "/Users/alexfrisoni/Assignment02IOT/include",
                 "/Users/alexfrisoni/Assignment02IOT/src",
+                "/Users/alexfrisoni/Assignment02IOT/.pio/libdeps/uno/TimerOne",
+                "/Users/alexfrisoni/Assignment02IOT/.pio/libdeps/uno/LiquidCrystal_I2C",
                 "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/variants/standard",
+                "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                 "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 ""
             ],
             "browse": {
@@ -24,13 +26,15 @@
                 "path": [
                     "/Users/alexfrisoni/Assignment02IOT/include",
                     "/Users/alexfrisoni/Assignment02IOT/src",
+                    "/Users/alexfrisoni/Assignment02IOT/.pio/libdeps/uno/TimerOne",
+                    "/Users/alexfrisoni/Assignment02IOT/.pio/libdeps/uno/LiquidCrystal_I2C",
                     "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/variants/standard",
+                    "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                     "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    "/Users/alexfrisoni/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     ""
                 ]
             },

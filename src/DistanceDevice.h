@@ -3,7 +3,7 @@
 
 class DistanceDevice {
 public:
-  virtual int getDistance() = 0;
+  virtual float getDistance() = 0;
 };
 
 #endif

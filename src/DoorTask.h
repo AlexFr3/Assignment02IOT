@@ -14,7 +14,7 @@
 
 class DoorTask : public Task
 {
-  int lastOpen;
+  long lastOpen;
   Light* l1;
   Light* l2;
   enum {OPENED, CLOSED,REVERSED, BLOCKED} doorState;

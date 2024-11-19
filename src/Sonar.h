@@ -7,7 +7,7 @@ class Sonar : public DistanceDevice
 
 public:
     Sonar(int trigPin, int echoPin);
-    int getDistance();
+    float getDistance();
 
 private:
     int trigPin;

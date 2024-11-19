@@ -12,7 +12,7 @@ Sonar::Sonar(int trigPin, int echoPin){
   pinMode(echoPin, INPUT); 
 }
 
-int Sonar::getDistance(){
+float Sonar::getDistance(){
     digitalWrite(trigPin,LOW);
     delayMicroseconds(3);
     digitalWrite(trigPin,HIGH);

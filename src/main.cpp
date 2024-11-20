@@ -2,7 +2,7 @@
 #define  CLOSE_PIN 5
 #define  DOOR_PIN 9
 #define DOOR_PERIOD 150
-#define SCHEDULER_PERIOD 1000
+#define SCHEDULER_PERIOD 100
 #define L1_PIN 2
 #define L2_PIN 3
 #define TRIG_PIN 13

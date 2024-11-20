@@ -31,7 +31,8 @@ void ContainerTask::tick()
         distance = MAX_DISTANCE;
       }
       float percentage = 100 - (distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE) * 100;
-      Serial.println(percentage);
+      Serial.print(percentage);
+      Serial.println("%");
       /*TODO mandare percentuale da visualizzare*/
       if (distance <= MIN_DISTANCE)
       {
@@ -60,6 +61,7 @@ void ContainerTask::tick()
       if (millis() - startEmptying > T3)
       {
         emptying = false;
+        full = false;
         this->containerState = NOT_FULL;
         l1->switchOn();
         l2->switchOff();

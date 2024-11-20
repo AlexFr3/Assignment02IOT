@@ -17,10 +17,7 @@ DoorTask::DoorTask(Light *l1, Light *l2, int doorPin, int openPin, int closePin)
   l1->switchOn();
   l2->switchOff();
   Serial.println("Inizializzazione fatta");
-  /*door->on();
-  door->setPosition(90);
-  delay(100);
-  door->off();*/
+  moveDoor(CLOSED_ANGLE);
 }
 
 void DoorTask::tick()
@@ -108,8 +105,8 @@ void DoorTask::tick()
 
 void DoorTask::moveDoor(int angle)
 {
-  /*door->on();
+  door->on();
   door->setPosition(angle);
   delay(1000);
-  door->off();*/
+  door->off();
 }

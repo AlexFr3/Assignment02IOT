@@ -1,6 +1,6 @@
 #ifndef __CONTAINERTASK__
 #define __CONTAINERTASK__
-#define MAX_DISTANCE 1
+#define MAX_DISTANCE 0.5
 #define MIN_DISTANCE 0.1
 #define T3 5000
 #include "Task.h"

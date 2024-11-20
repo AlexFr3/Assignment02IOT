@@ -12,61 +12,65 @@ ContainerTask::ContainerTask(Light *l1, Light *l2, int echoPin, int trigPin)
   this->l2 = l2;
   this->sonar = new Sonar(trigPin, echoPin);
   this->containerState = NOT_FULL;
+  sonar->getDistance();
 }
 void ContainerTask::tick()
 {
   switch (this->containerState)
   {
   case NOT_FULL:
+  {
+    Serial.println("not full");
+    float distance = sonar->getDistance();
+    Serial.println(distance);
+    if (distance < MIN_DISTANCE)
     {
-      Serial.println("not full");
-      float distance = sonar->getDistance();
-      Serial.println(distance);
-      if (distance < MIN_DISTANCE)
-      {
-        distance = MIN_DISTANCE;
-      }
-      else if (distance > MAX_DISTANCE)
-      {
-        distance = MAX_DISTANCE;
-      }
-      float percentage = 100 - (distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE) * 100;
-      Serial.print(percentage);
-      Serial.println("%");
-      /*TODO mandare percentuale da visualizzare*/
-      if (distance <= MIN_DISTANCE)
-      {
-        full = true;
-        l1->switchOff();
-        l2->switchOn();
-        this->containerState = FULL;
-      }
-      break;
+      distance = MIN_DISTANCE;
     }
-    case FULL:
+    else if (distance > MAX_DISTANCE)
     {
-      Serial.println("full");
-      bool pressed= true; /*TODO ricevere messaggio da GUI*/
-      if (pressed)
-      {
-        emptying = true;
-        this->containerState = EMPTYING;
-        startEmptying = millis();
-      }
-      break;
+      distance = MAX_DISTANCE;
     }
-    case EMPTYING:
+    float percentage = 100 - (distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE) * 100;
+    Serial.print(percentage);
+    Serial.println("%");
+    /*TODO mandare percentuale da visualizzare*/
+    if (distance <= MIN_DISTANCE)
     {
-      Serial.println("emptying");
-      if (millis() - startEmptying > T3)
+      full = true;
+      l1->switchOff();
+      l2->switchOn();
+      this->containerState = FULL;
+    }
+    break;
+  }
+  case FULL:
+  {
+    Serial.println("full");
+    bool pressed = true; /*TODO ricevere messaggio da GUI*/
+    if (pressed)
+    {
+      emptying = true;
+      this->containerState = EMPTYING;
+      startEmptying = millis();
+    }
+    break;
+  }
+  case EMPTYING:
+  {
+    Serial.println("emptying");
+    if (millis() - startEmptying > T3)
+    {
+      emptying = false;
+      full = false;
+      this->containerState = NOT_FULL;
+      if (!crytTemp)
       {
-        emptying = false;
-        full = false;
-        this->containerState = NOT_FULL;
         l1->switchOn();
         l2->switchOff();
       }
-      break;
     }
+    break;
+  }
   }
 }

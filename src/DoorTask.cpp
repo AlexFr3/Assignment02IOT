@@ -22,6 +22,12 @@ DoorTask::DoorTask(Light *l1, Light *l2, int doorPin, int openPin, int closePin)
 
 void DoorTask::tick()
 {
+  if (emptying)
+  {
+      doorState = REVERSED;
+      moveDoor(REVERSED_ANGLE);
+      Serial.println("porta invertita");
+  }
   Serial.println("stato: " + String(this->doorState));
   switch (doorState)
   {
@@ -67,12 +73,7 @@ void DoorTask::tick()
       Serial.println("porta bloccata");
     }
 
-    if (emptying)
-    {
-      doorState = REVERSED;
-      moveDoor(REVERSED_ANGLE);
-      Serial.println("porta invertita");
-    }
+    
     break;
   }
 

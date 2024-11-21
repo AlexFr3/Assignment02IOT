@@ -5,29 +5,19 @@ extern bool emptying;
 extern bool crytTemp;
 extern bool full;
 
-DoorTask::DoorTask(Light *l1, Light *l2, int doorPin, int openPin, int closePin)
+DoorTask::DoorTask(int doorPin, int openPin, int closePin)
 {
-  this->l1 = l1;
-  this->l2 = l2;
   this->door = new ServoMotorImpl(doorPin);
   this->openButton = new ButtonImpl(openPin);
   this->closeButton = new ButtonImpl(closePin);
-
   this->doorState = CLOSED;
-  l1->switchOn();
-  l2->switchOff();
   Serial.println("Inizializzazione fatta");
   moveDoor(CLOSED_ANGLE);
 }
 
 void DoorTask::tick()
 {
-  if (emptying)
-  {
-      doorState = REVERSED;
-      moveDoor(REVERSED_ANGLE);
-      Serial.println("porta invertita");
-  }
+
   Serial.println("stato: " + String(this->doorState));
   switch (doorState)
   {
@@ -38,18 +28,17 @@ void DoorTask::tick()
     Serial.println("elapsed: " + String(elapsed));
     Serial.println("Check del closed");
     bool closePressed = closeButton->isPressed();
-    if (closePressed || elapsed > T1)
-    {
-      doorState = CLOSED;
-      moveDoor(CLOSED_ANGLE);
-      Serial.println("chiudi porta");
-    }
-
     if (full || crytTemp)
     {
       doorState = BLOCKED;
       moveDoor(CLOSED_ANGLE);
       Serial.println("porta bloccata");
+    }
+    else if (closePressed || elapsed > T1)
+    {
+      doorState = CLOSED;
+      moveDoor(CLOSED_ANGLE);
+      Serial.println("chiudi porta");
     }
     break;
   }
@@ -58,7 +47,13 @@ void DoorTask::tick()
   {
     Serial.println("Check del open");
     bool openPressed = openButton->isPressed();
-    if (openPressed)
+    if (full || crytTemp)
+    {
+      doorState = BLOCKED;
+      moveDoor(CLOSED_ANGLE);
+      Serial.println("porta bloccata");
+    }
+    else if (openPressed)
     {
       lastOpen = millis();
       doorState = OPENED;
@@ -66,14 +61,6 @@ void DoorTask::tick()
       Serial.println("apri porta");
     }
 
-    if (full || crytTemp)
-    {
-      doorState = BLOCKED;
-      moveDoor(CLOSED_ANGLE);
-      Serial.println("porta bloccata");
-    }
-
-    
     break;
   }
 
@@ -92,7 +79,13 @@ void DoorTask::tick()
   case BLOCKED:
   {
     Serial.println("Caso BLOCKED");
-    if (!full && !crytTemp)
+    if (emptying)
+    {
+      doorState = REVERSED;
+      moveDoor(REVERSED_ANGLE);
+      Serial.println("porta invertita");
+    }
+    else if (!full && !crytTemp)
     {
       doorState = CLOSED;
       moveDoor(CLOSED_ANGLE);

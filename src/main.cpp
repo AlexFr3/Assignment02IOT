@@ -29,8 +29,10 @@ void setup() {
   sched.init(SCHEDULER_PERIOD);
   l1 = new Led(L1_PIN);
   l2 = new Led(L2_PIN);
+  l1->switchOn();
+  l2->switchOff();
   //open sul pin 4, close sul 5
-  Task* doorTask = new DoorTask(l1, l2, DOOR_PIN, OPEN_PIN, CLOSE_PIN);
+  Task* doorTask = new DoorTask(DOOR_PIN, OPEN_PIN, CLOSE_PIN);
   //trig sul pin 13, echo sul 12
   Task* containerTask= new ContainerTask(l1, l2, ECHO_PIN, TRIG_PIN); 
   Task* userDetectionTask = new UserDetectionTask(PIR_PIN);

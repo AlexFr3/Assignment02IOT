@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include "Sonar.h"
 #include "Light.h"
+#include "output.h"
 extern bool emptying;
 extern bool crytTemp;
 extern bool full;
@@ -37,6 +38,8 @@ void ContainerTask::tick()
     /*TODO mandare percentuale da visualizzare*/
     if (distance <= MIN_DISTANCE)
     {
+      clearOutput();
+      writeMessage("CONTAINER FULL");
       full = true;
       l1->switchOff();
       l2->switchOn();

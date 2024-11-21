@@ -5,7 +5,7 @@
 #define CLOSED_ANGLE 90
 #define OPENED_ANGLE 180
 #define REVERSED_ANGLE 0
-
+#define T2 3000
 #include "Task.h"
 #include "ButtonImpl.h"
 #include <Arduino.h>
@@ -13,8 +13,9 @@
 
 class DoorTask : public Task
 {
+  long wasteReceivedTime;
   long lastOpen;
-  enum {OPENED, CLOSED,REVERSED, BLOCKED} doorState;
+  enum {OPENED, CLOSED,REVERSED, BLOCKED, WASTE_RECEIVED} doorState;
   Button* openButton;
   Button* closeButton;
   ServoMotor* door;

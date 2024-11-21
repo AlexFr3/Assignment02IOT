@@ -17,6 +17,7 @@
 #include "DoorTask.h"
 #include "ContainerTask.h"
 #include "UserDetectionTask.h"
+#include "output.h"
 Scheduler sched;
 Light* l1;
 Light* l2;
@@ -27,6 +28,7 @@ bool full = false;
 void setup() {
   Serial.begin(9600);
   sched.init(SCHEDULER_PERIOD);
+  outputInit();
   l1 = new Led(L1_PIN);
   l2 = new Led(L2_PIN);
   l1->switchOn();
@@ -42,6 +44,9 @@ void setup() {
   sched.addTask(doorTask);
   sched.addTask(containerTask);
   sched.addTask(userDetectionTask);
+  writeMessage("PRESS OPEN ");
+  setNextLine();
+  writeMessage("TO ENTER WASTE");
 }
 
 void loop() {

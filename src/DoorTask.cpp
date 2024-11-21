@@ -1,6 +1,6 @@
 #include "DoorTask.h"
 #include <Arduino.h>
-
+#include "output.h"
 extern bool emptying;
 extern bool crytTemp;
 extern bool full;
@@ -36,7 +36,10 @@ void DoorTask::tick()
     }
     else if (closePressed || elapsed > T1)
     {
-      doorState = CLOSED;
+      doorState = WASTE_RECEIVED;
+      clearOutput();
+      writeMessage("WASTE RECEIVED");
+      wasteReceivedTime = millis();
       moveDoor(CLOSED_ANGLE);
       Serial.println("chiudi porta");
     }
@@ -55,6 +58,10 @@ void DoorTask::tick()
     }
     else if (openPressed)
     {
+      clearOutput();
+      writeMessage("PRESS CLOSE");
+      setNextLine();
+      writeMessage("WHEN DONE");
       lastOpen = millis();
       doorState = OPENED;
       moveDoor(OPENED_ANGLE);
@@ -71,6 +78,10 @@ void DoorTask::tick()
     {
       doorState = CLOSED;
       moveDoor(CLOSED_ANGLE);
+      clearOutput();
+      writeMessage("PRESS OPEN");
+      setNextLine();
+      writeMessage("TO ENTER WASTE");
       Serial.println("porta chiusa");
     }
     break;
@@ -92,6 +103,17 @@ void DoorTask::tick()
       Serial.println("porta chiusa");
     }
     break;
+  }
+  case WASTE_RECEIVED:
+  {
+    if (millis() - wasteReceivedTime > T2)
+    {
+      clearOutput();
+      writeMessage("PRESS OPEN ");
+      setNextLine();
+      writeMessage("TO ENTER WASTE");
+      doorState = CLOSED;
+    }
   }
     Serial.println("dopo switch: " + String(doorState));
   }

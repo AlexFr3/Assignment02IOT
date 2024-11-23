@@ -26,7 +26,6 @@ void DoorTask::tick()
 
     long elapsed = millis() - lastOpen;
     Serial.println("elapsed: " + String(elapsed));
-    Serial.println("Check del closed");
     bool closePressed = closeButton->isPressed();
     if (full || crytTemp)
     {
@@ -48,7 +47,6 @@ void DoorTask::tick()
 
   case CLOSED:
   {
-    Serial.println("Check del open");
     bool openPressed = openButton->isPressed();
     if (full || crytTemp)
     {

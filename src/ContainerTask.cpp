@@ -21,7 +21,6 @@ void ContainerTask::tick()
   {
   case NOT_FULL:
   {
-    Serial.println("not full");
     float distance = sonar->getDistance();
     Serial.println(distance);
     if (distance < MIN_DISTANCE)
@@ -49,7 +48,6 @@ void ContainerTask::tick()
   }
   case FULL:
   {
-    Serial.println("full");
     bool pressed = true; /*TODO ricevere messaggio da GUI*/
     if (pressed)
     {

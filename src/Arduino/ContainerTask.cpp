@@ -3,6 +3,7 @@
 #include "Sonar.h"
 #include "Light.h"
 #include "output.h"
+#include "MsgService.h"
 extern bool emptying;
 extern bool crytTemp;
 extern bool full;
@@ -22,7 +23,6 @@ void ContainerTask::tick()
   case NOT_FULL:
   {
     float distance = sonar->getDistance();
-    Serial.println(distance);
     if (distance < MIN_DISTANCE)
     {
       distance = MIN_DISTANCE;
@@ -32,9 +32,7 @@ void ContainerTask::tick()
       distance = MAX_DISTANCE;
     }
     float percentage = 100 - (distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE) * 100;
-    Serial.print(percentage);
-    Serial.println("%");
-    /*TODO mandare percentuale da visualizzare*/
+    MsgService.sendMsg("Percentuale di riempimento: " + String(percentage) + "%");
     if (distance <= MIN_DISTANCE)
     {
       clearOutput();
@@ -59,7 +57,6 @@ void ContainerTask::tick()
   }
   case EMPTYING:
   {
-    Serial.println("emptying");
     if (millis() - startEmptying > T3)
     {
       emptying = false;

@@ -21,6 +21,7 @@
 #include "UserDetectionTask.h"
 #include "TemperatureTask.h"
 #include "output.h"
+#include "MsgService.h"
 Scheduler sched;
 Light *l1;
 Light *l2;
@@ -30,7 +31,7 @@ bool full = false;
 
 void setup()
 {
-  Serial.begin(9600);
+  MsgService.init();
   sched.init(SCHEDULER_PERIOD);
   outputInit();
   l1 = new Led(L1_PIN);

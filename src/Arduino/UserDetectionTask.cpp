@@ -22,7 +22,6 @@ void UserDetectionTask::tick()
         long elapsed = millis() - lastSeen;
         if (elapsed > TSLEEP)
         {
-            Serial.println("Sleeping");
             Serial.flush();
             userDetectionState = SLEEP;
             set_sleep_mode(SLEEP_MODE_PWR_DOWN);
@@ -30,7 +29,6 @@ void UserDetectionTask::tick()
             sleep_mode();
             sleep_disable();
             userDetectionState = AWAKE;
-            Serial.println("Awake");
         }
     }
 }

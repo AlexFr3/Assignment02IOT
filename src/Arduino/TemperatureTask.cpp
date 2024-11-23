@@ -16,14 +16,12 @@ TemperatureTask::TemperatureTask(Light *l1, Light *l2, int temperaturePin)
 void TemperatureTask::tick()
 {
     float temperature = tmp->getTemperature();
-    Serial.println("Temperatura: " + String(temperature));
     switch (this->temperatureState)
     {
     case STABLE:
     {
         if (temperature <= MAXTEMP)
         {
-            Serial.println("temperatura stabile");
             lastStable = millis();
         }
         else
@@ -32,7 +30,6 @@ void TemperatureTask::tick()
             {
                 clearOutput();
                 writeMessage("PROBLEM DETECTED");
-                Serial.println("critical temperature");
                 this->temperatureState = CRITICAL;
                 crytTemp = true;
                 l1->switchOff();
@@ -45,7 +42,6 @@ void TemperatureTask::tick()
     case CRITICAL:
     {
         bool pressed = true; /*TODO*/
-        Serial.println("critical temperature");
         if (pressed)
         {
             crytTemp = false;

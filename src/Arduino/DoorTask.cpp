@@ -11,27 +11,23 @@ DoorTask::DoorTask(int doorPin, int openPin, int closePin)
   this->openButton = new ButtonImpl(openPin);
   this->closeButton = new ButtonImpl(closePin);
   this->doorState = CLOSED;
-  Serial.println("Inizializzazione fatta");
   moveDoor(CLOSED_ANGLE);
 }
 
 void DoorTask::tick()
 {
 
-  Serial.println("stato: " + String(this->doorState));
   switch (doorState)
   {
   case OPENED:
   {
 
     long elapsed = millis() - lastOpen;
-    Serial.println("elapsed: " + String(elapsed));
     bool closePressed = closeButton->isPressed();
     if (full || crytTemp)
     {
       doorState = BLOCKED;
       moveDoor(CLOSED_ANGLE);
-      Serial.println("porta bloccata");
     }
     else if (closePressed || elapsed > T1)
     {
@@ -40,7 +36,7 @@ void DoorTask::tick()
       writeMessage("WASTE RECEIVED");
       wasteReceivedTime = millis();
       moveDoor(CLOSED_ANGLE);
-      Serial.println("chiudi porta");
+
     }
     break;
   }
@@ -52,7 +48,6 @@ void DoorTask::tick()
     {
       doorState = BLOCKED;
       moveDoor(CLOSED_ANGLE);
-      Serial.println("porta bloccata");
     }
     else if (openPressed)
     {
@@ -63,7 +58,6 @@ void DoorTask::tick()
       lastOpen = millis();
       doorState = OPENED;
       moveDoor(OPENED_ANGLE);
-      Serial.println("apri porta");
     }
 
     break;
@@ -71,7 +65,6 @@ void DoorTask::tick()
 
   case REVERSED:
   {
-    Serial.println("Caso REVERSED");
     if (!emptying)
     {
       doorState = CLOSED;
@@ -80,25 +73,21 @@ void DoorTask::tick()
       writeMessage("PRESS OPEN");
       setNextLine();
       writeMessage("TO ENTER WASTE");
-      Serial.println("porta chiusa");
     }
     break;
   }
 
   case BLOCKED:
   {
-    Serial.println("Caso BLOCKED");
     if (emptying)
     {
       doorState = REVERSED;
       moveDoor(REVERSED_ANGLE);
-      Serial.println("porta invertita");
     }
     else if (!full && !crytTemp)
     {
       doorState = CLOSED;
       moveDoor(CLOSED_ANGLE);
-      Serial.println("porta chiusa");
     }
     break;
   }
@@ -113,7 +102,6 @@ void DoorTask::tick()
       doorState = CLOSED;
     }
   }
-    Serial.println("dopo switch: " + String(doorState));
   }
 }
 

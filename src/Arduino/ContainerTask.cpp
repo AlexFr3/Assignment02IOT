@@ -64,7 +64,7 @@ void ContainerTask::tick()
   case FULL:
   { 
     
-    MsgService.sendMsg("Filling percentage: 100%");
+    MsgService.sendMsg("Filling percentage: 100.00%");
     if (MsgService.isMsgAvailable())
     {
       Msg *msg = MsgService.receiveMsg();

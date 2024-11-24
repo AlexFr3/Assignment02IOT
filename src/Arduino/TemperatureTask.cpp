@@ -5,6 +5,9 @@
 #include "TemperatureDevice.h"
 extern bool crytTemp;
 extern bool full;
+extern bool emptyPressed;
+extern bool restorePressed;
+
 TemperatureTask::TemperatureTask(Light *l1, Light *l2, int temperaturePin)
 {
     this->l1 = l1;
@@ -20,6 +23,20 @@ void TemperatureTask::tick()
     {
     case STABLE:
     {
+        if (restorePressed)
+        {
+            restorePressed = false;
+        }
+        if (MsgService.isMsgAvailable())
+        {
+            Msg *msg = MsgService.receiveMsg();
+
+            if (msg->getContent() == "EMPTY_CONTAINER")
+            {
+                emptyPressed = true;
+            }
+            delete msg;
+        }
         if (temperature <= MAXTEMP)
         {
             lastStable = millis();
@@ -41,11 +58,24 @@ void TemperatureTask::tick()
 
     case CRITICAL:
     {
-        bool pressed = true; /*TODO*/
-        if (pressed)
+        if (MsgService.isMsgAvailable())
+        {
+            Msg *msg = MsgService.receiveMsg();
+            if (msg->getContent() == "EMPTY_CONTAINER")
+            {
+                emptyPressed = true;
+            }
+            else if (msg->getContent() == "RESTORE_PRESS")
+            {
+                restorePressed = true;
+            }
+            delete msg;
+        }
+        if (restorePressed)
         {
             crytTemp = false;
             this->temperatureState = STABLE;
+            restorePressed = false;
             clearOutput();
             if (!full)
             {
@@ -54,10 +84,11 @@ void TemperatureTask::tick()
                 writeMessage("TO ENTER WASTE");
                 l1->switchOn();
                 l2->switchOff();
-            }else{
+            }
+            else
+            {
                 writeMessage("CONTAINER FULL");
             }
-            
         }
         break;
     }

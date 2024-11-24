@@ -6,7 +6,7 @@
 #define TEMPERATURE_PERIOD 100
 #define USERDETECTION_PERIOD 100
 #define DOOR_PERIOD 150
-#define SCHEDULER_PERIOD 1000
+#define SCHEDULER_PERIOD 150
 #define L1_PIN 2
 #define L2_PIN 3
 #define TRIG_PIN 13
@@ -28,6 +28,8 @@ Light *l2;
 bool emptying = false;
 bool crytTemp = false;
 bool full = false;
+bool restorePressed = false;
+bool emptyPressed = false;
 
 void setup()
 {
@@ -38,9 +40,7 @@ void setup()
   l2 = new Led(L2_PIN);
   l1->switchOn();
   l2->switchOff();
-  // open sul pin 4, close sul 5
   Task *doorTask = new DoorTask(DOOR_PIN, OPEN_PIN, CLOSE_PIN);
-  // trig sul pin 13, echo sul 12
   Task *containerTask = new ContainerTask(l1, l2, ECHO_PIN, TRIG_PIN);
   Task *userDetectionTask = new UserDetectionTask(PIR_PIN);
   Task *temperatureTask = new TemperatureTask(l1, l2, TMP_PIN);

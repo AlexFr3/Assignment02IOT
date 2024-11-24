@@ -1,10 +1,11 @@
 #ifndef __TEMPERATURETASK__
 #define __TEMPERATURETASK__
-#define MAXTEMP 30
+#define MAXTEMP 35
 #define MAXTEMPTIME 1000
 #include "Task.h"
 #include "Light.h"
 #include "TemperatureSensor.h"
+#include "MsgService.h"
 #include <Arduino.h>
 
 class TemperatureTask : public Task

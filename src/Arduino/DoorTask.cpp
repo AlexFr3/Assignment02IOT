@@ -36,7 +36,6 @@ void DoorTask::tick()
       writeMessage("WASTE RECEIVED");
       wasteReceivedTime = millis();
       moveDoor(CLOSED_ANGLE);
-
     }
     break;
   }
@@ -69,10 +68,16 @@ void DoorTask::tick()
     {
       doorState = CLOSED;
       moveDoor(CLOSED_ANGLE);
-      clearOutput();
-      writeMessage("PRESS OPEN");
-      setNextLine();
-      writeMessage("TO ENTER WASTE");
+      if (!crytTemp)
+      {
+        clearOutput();
+        writeMessage("PRESS OPEN");
+        setNextLine();
+        writeMessage("TO ENTER WASTE");
+      } else {
+        clearOutput();
+        writeMessage("PROBLEM DETECTED");
+      }
     }
     break;
   }

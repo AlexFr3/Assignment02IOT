@@ -7,6 +7,8 @@
 extern bool emptying;
 extern bool crytTemp;
 extern bool full;
+extern bool emptyPressed;
+extern bool restorePressed;
 
 ContainerTask::ContainerTask(Light *l1, Light *l2, int echoPin, int trigPin)
 {
@@ -22,6 +24,20 @@ void ContainerTask::tick()
   {
   case NOT_FULL:
   {
+    if (emptyPressed)
+    {
+      emptyPressed = false;
+    }
+    if (MsgService.isMsgAvailable())
+    {
+      Msg *msg = MsgService.receiveMsg();
+
+      if (msg->getContent() == "RESTORE_PRESS")
+      {
+        restorePressed = true;
+      }
+      delete msg;
+    }
     float distance = sonar->getDistance();
     if (distance < MIN_DISTANCE)
     {
@@ -32,7 +48,7 @@ void ContainerTask::tick()
       distance = MAX_DISTANCE;
     }
     float percentage = 100 - (distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE) * 100;
-    MsgService.sendMsg("Percentuale di riempimento: " + String(percentage) + "%");
+    MsgService.sendMsg("Filling percentage: " + String(percentage) + "%");
     if (distance <= MIN_DISTANCE)
     {
       clearOutput();
@@ -44,19 +60,50 @@ void ContainerTask::tick()
     }
     break;
   }
+
   case FULL:
-  {
-    bool pressed = true; /*TODO ricevere messaggio da GUI*/
-    if (pressed)
+  { 
+    
+    MsgService.sendMsg("Filling percentage: 100%");
+    if (MsgService.isMsgAvailable())
+    {
+      Msg *msg = MsgService.receiveMsg();
+      if (msg->getContent() == "EMPTY_CONTAINER")
+      {
+        emptyPressed = true;
+      }
+      else if (msg->getContent() == "RESTORE_PRESS")
+      {
+        restorePressed = true;
+      }
+      delete msg;
+    }
+
+    if (emptyPressed)
     {
       emptying = true;
       this->containerState = EMPTYING;
       startEmptying = millis();
+      emptyPressed = false;
     }
     break;
   }
+
   case EMPTYING:
   {
+    if (emptyPressed)
+    {
+      emptyPressed = false;
+    }
+    if (MsgService.isMsgAvailable())
+    {
+      Msg *msg = MsgService.receiveMsg();
+      if (msg->getContent() == "RESTORE_PRESS")
+      {
+        restorePressed = true;
+      }
+      delete msg;
+    }
     if (millis() - startEmptying > T3)
     {
       emptying = false;

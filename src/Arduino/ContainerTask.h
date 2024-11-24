@@ -6,6 +6,7 @@
 #include "Task.h"
 #include "Light.h"
 #include "DistanceDevice.h"
+#include "MsgService.h"
 #include <Arduino.h>
 
 class ContainerTask : public Task

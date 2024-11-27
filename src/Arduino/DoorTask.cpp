@@ -114,6 +114,6 @@ void DoorTask::moveDoor(int angle)
 {
   door->on();
   door->setPosition(angle);
-  delay(1000);
+  delay(400);
   door->off();
 }

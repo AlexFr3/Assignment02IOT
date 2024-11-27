@@ -54,7 +54,7 @@ fill_label.pack(pady=20)
 result_label = tk.Label(root, text="Welcome to smart container waste control", font=("Arial", 14), bg="#f4f4f4", fg="#000000")
 result_label.pack(pady=10)
 
-btn_empty_container = tk.Button(root, text="Emptying the Container", font=("Arial", 12), bg="#007BFF", fg="white",
+btn_empty_container = tk.Button(root, text="Empty the container", font=("Arial", 12), bg="#007BFF", fg="white",
                                  command=lambda: send_command("EMPTY_CONTAINER"))
 btn_empty_container.pack(pady=10)
 

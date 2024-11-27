@@ -4,7 +4,7 @@ import tkinter as tk
 import threading
 
 #'COM 3' needs to be changed to the selected port
-arduino = serial.Serial('/dev/cu.usbmodem1401', 9600, timeout=1)  
+arduino = serial.Serial('COM4', 9600, timeout=1)  
 time.sleep(2)  # Wait for Arduino to be ready
 
 # Event to stop the thread
@@ -24,14 +24,22 @@ def read_msg():
 
 def update_fill_percentage():
     while not stop_event.is_set():
-        fill_msg = read_msg()
-        if fill_msg:
-            root.after(0, update_label, fill_msg)
-        time.sleep(0.1)
+        message = read_msg()
+        if message:
+            if message.startswith("T"):
+                root.after(0, update_temperature, message)
+            elif message.startswith("F"):
+                root.after(0, update_filling, message)
 
-def update_label(fill_msg):
+def update_filling(fill_msg):
     try:
         fill_label.config(text=f"{fill_msg}")
+    except tk.TclError:
+        pass  
+
+def update_temperature(temperature_msg):
+    try:
+        temperature_label.config(text=f"{temperature_msg}")
     except tk.TclError:
         pass  
 
@@ -47,6 +55,10 @@ root = tk.Tk()
 root.title("Check Arduino")
 root.geometry("500x450")
 root.config(bg="#f4f4f4")  
+
+
+temperature_label = tk.Label(root, text="Temperature: ", font=("Arial", 14), bg="#f4f4f4", fg="#000000")
+temperature_label.pack(pady=20)
 
 fill_label = tk.Label(root, text="Filling: --%", font=("Arial", 14), bg="#f4f4f4", fg="#000000")
 fill_label.pack(pady=20)

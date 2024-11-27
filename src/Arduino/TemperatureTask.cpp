@@ -3,6 +3,8 @@
 #include "Light.h"
 #include "output.h"
 #include "TemperatureDevice.h"
+#include "MsgService.h"
+
 extern bool crytTemp;
 extern bool full;
 extern bool emptyPressed;
@@ -19,6 +21,7 @@ TemperatureTask::TemperatureTask(Light *l1, Light *l2, int temperaturePin)
 void TemperatureTask::tick()
 {
     float temperature = tmp->getTemperature();
+    MsgService.sendMsg("Temperature: " + String(temperature) + "°");
     switch (this->temperatureState)
     {
     case STABLE:

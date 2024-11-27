@@ -1,6 +1,6 @@
 #ifndef __TEMPERATURETASK__
 #define __TEMPERATURETASK__
-#define MAXTEMP 35
+#define MAXTEMP 30
 #define MAXTEMPTIME 1000
 #include "Task.h"
 #include "Light.h"

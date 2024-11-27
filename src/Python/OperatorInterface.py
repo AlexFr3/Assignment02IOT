@@ -22,7 +22,7 @@ def read_msg():
         print(f"Errore nella lettura: {e}")
     return None
 
-def update_fill_percentage():
+def update_fields():
     while not stop_event.is_set():
         message = read_msg()
         if message:
@@ -76,7 +76,7 @@ btn_restore.pack(pady=10)
 
 root.protocol("WM_DELETE_WINDOW", on_close)
 
-thread = threading.Thread(target=update_fill_percentage, daemon=True)
+thread = threading.Thread(target=update_fields, daemon=True)
 thread.start()
 
 root.mainloop()

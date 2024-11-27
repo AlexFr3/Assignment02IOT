@@ -27,6 +27,7 @@ def update_fill_percentage():
         fill_msg = read_msg()
         if fill_msg:
             root.after(0, update_label, fill_msg)
+        time.sleep(0.1)
 
 def update_label(fill_msg):
     try:
@@ -39,9 +40,8 @@ def send_command(command):
 
 def on_close():
     stop_event.set()  
-    thread.join() 
     arduino.close()  
-    root.quit()  
+    root.destroy()  
 
 root = tk.Tk()
 root.title("Check Arduino")

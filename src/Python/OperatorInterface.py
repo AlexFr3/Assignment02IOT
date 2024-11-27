@@ -4,7 +4,7 @@ import tkinter as tk
 import threading
 
 #'COM 3' needs to be changed to the selected port
-arduino = serial.Serial('COM3', 9600, timeout=1)  
+arduino = serial.Serial('/dev/cu.usbmodem1401', 9600, timeout=1)  
 time.sleep(2)  # Wait for Arduino to be ready
 
 # Event to stop the thread
@@ -54,11 +54,11 @@ fill_label.pack(pady=20)
 result_label = tk.Label(root, text="Welcome to smart container waste control", font=("Arial", 14), bg="#f4f4f4", fg="#000000")
 result_label.pack(pady=10)
 
-btn_empty_container = tk.Button(root, text="Empty the container", font=("Arial", 12), bg="#007BFF", fg="white",
+btn_empty_container = tk.Button(root, text="Empty the container", font=("Arial", 12), bg="#007BFF", fg="black",
                                  command=lambda: send_command("EMPTY_CONTAINER"))
 btn_empty_container.pack(pady=10)
 
-btn_restore = tk.Button(root, text="Restore", font=("Arial", 12), bg="#28A745", fg="white",
+btn_restore = tk.Button(root, text="Restore", font=("Arial", 12), bg="#28A745", fg="black",
                          command=lambda: send_command("RESTORE_PRESS"))
 btn_restore.pack(pady=10)
 

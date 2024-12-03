@@ -4,7 +4,7 @@ import tkinter as tk
 import threading
 
 #'COM 3' needs to be changed to the selected port
-arduino = serial.Serial('COM4', 9600, timeout=1)  
+arduino = serial.Serial('/dev/cu.usbmodem1401', 9600, timeout=1)  
 time.sleep(2)  # Wait for Arduino to be ready
 
 # Event to stop the thread
